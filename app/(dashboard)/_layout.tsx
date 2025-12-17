@@ -13,13 +13,16 @@ const tabs = [
 const DashBoardLayout = () =>{
     return(
         <Tabs 
-            screenOptions={{headerShown : false}}>
+            screenOptions={{
+                headerShown : false,
+                tabBarActiveTintColor:'black',
+                tabBarInactiveTintColor: 'gray'}}>
             {tabs.map((tab) => (
                 <Tabs.Screen
                     name={tab.name}
                         options={{
                             tabBarIcon: ({ color, size }) => (
-                                <MaterialIcons name={tab.icon} color={color} size={size} />
+                                <MaterialIcons name={tab.icon} color={color} size={size} a />
                             ),
                         }}
                     />
