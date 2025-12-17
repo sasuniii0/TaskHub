@@ -5,12 +5,15 @@ const Home = () => {
     <View className="flex-1 bg-gray-50 px-6 pt-12">
       
       {/* Header */}
-      <Text className="text-2xl font-bold text-gray-800 mb-1">
-        Welcome 👋
-      </Text>
-      <Text className="text-gray-500 mb-6">
-        Hope you’re having a great day
-      </Text>
+      <View className="items-center mb-6 mt-12">
+        <Text className="text-2xl font-bold text-gray-800 mb-1">
+            Welcome
+        </Text>
+        <Text className="text-gray-500">
+            Hope you’re having a great day
+        </Text>
+      </View>
+
 
       {/* Card */}
       <View className="bg-white rounded-2xl p-5 shadow-sm mb-6">
