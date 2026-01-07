@@ -1,20 +1,42 @@
+import { LoaderContext, LoaderProvider } from "@/context/LoaderContext"
 import { Slot } from "expo-router"
-import { View } from "react-native-reanimated/lib/typescript/Animated"
+import { View } from "react-native"
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
-import Toast from "react-native-toast-message"
+import Toast , { BaseToast, ErrorToast } from "react-native-toast-message"
 
+const toastConfig = {
+  success: (props: any) => (
+    <BaseToast
+      {...props}
+      style={{ borderLeftColor: "#4CAF50" }}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
+      text1Style={{ fontSize: 18, fontWeight: "bold" }} // increase font size
+      text2Style={{ fontSize: 16 }} // optional: increase subtext font size
+    />
+  ),
+  error: (props: any) => (
+    <ErrorToast
+      {...props}
+      style={{ borderLeftColor: "#F44336" }}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
+      text1Style={{ fontSize: 18, fontWeight: "bold" }}
+      text2Style={{ fontSize: 16 }}
+    />
+  ),
+};
+
+// similar to app.tsx
 const RootLayout = () => {
     const insets = useSafeAreaInsets()
     //console.log(insets);
     
     return (
-        <>
-            <SafeAreaView style={{flex:1}}>
-            <Slot/>
-        </SafeAreaView>
-
-        <Toast/>
-        </>
+        <LoaderProvider>
+            <View style={{flex:1}}>
+                <Slot/>
+                <Toast config={toastConfig}/>
+            </View>
+        </LoaderProvider>
 
         // <View style={{marginTop: insets.top , flex:1}}>
         //     <Slot/>

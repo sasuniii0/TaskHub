@@ -1,3 +1,4 @@
+import { useLoader } from "@/hooks/use-loader";
 import { loginUser } from "@/services/authService"
 import { useRouter } from "expo-router"
 import React from "react"
@@ -8,10 +9,11 @@ const Login = () => {
     const router = useRouter()
     const [email,setEmail] =  React.useState("")
     const [password,setPassword] =  React.useState("")
+    const {hideLoader,showLoader,isLoading} = useLoader();
 
     const handleSignin = async () => {
         try{
-            if(!email || !password){
+            if(!email || !password || isLoading){
                 Toast.show({
                     type: 'error',
                     text1: 'Error',
@@ -19,6 +21,7 @@ const Login = () => {
                 });
                 return
             }
+            showLoader()
             await loginUser(email,password)
             Toast.show({
                 type: 'success',
@@ -32,6 +35,8 @@ const Login = () => {
                 text1: 'Login Failed',
                 text2: error?.message || "Something went wrong"
             });
+        }finally{
+            hideLoader()
         }
     }
     return (

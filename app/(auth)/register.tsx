@@ -3,6 +3,7 @@ import { useRouter } from "expo-router"
 import { registerUser } from "@/services/authService"
 import React from "react"
 import Toast from "react-native-toast-message";
+import { useLoader } from "@/hooks/use-loader";
 
 const Register = () => {
     const router = useRouter()
@@ -11,9 +12,11 @@ const Register = () => {
     const [password,setPassword] =  React.useState("")
     const [confirmPassword,setConfirmPassword] =  React.useState("")
 
+    const {showLoader,hideLoader,isLoading} = useLoader();
+
     const handleRegister = async () => {
     try {
-        if (!name || !email || !password || !confirmPassword) {
+        if (!name || !email || !password || !confirmPassword || isLoading) {
         Toast.show({
             type: 'error',
             text1: 'Error',
@@ -31,6 +34,7 @@ const Register = () => {
         return;
         }
 
+        showLoader()
         try{
             await registerUser(name,email,password)
 
@@ -46,6 +50,8 @@ const Register = () => {
             text1: 'Registration Failed',
             text2: error?.message || "Something went wrong"
         });
+        }finally{
+            hideLoader()
         }
     } catch (error: any) {
         Toast.show({

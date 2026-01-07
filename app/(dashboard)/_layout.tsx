@@ -13,8 +13,7 @@ const tabs = [
 
 const DashBoardLayout = () =>{
     return(
-        <>
-            <Tabs 
+        <Tabs 
             screenOptions={{
                 headerShown : false,
                 tabBarActiveTintColor:'black',
@@ -38,10 +37,7 @@ const DashBoardLayout = () =>{
             )}} /> 
             <Tabs.Screen name="news" /> 
             <Tabs.Screen name="profile" />  */}
-        </Tabs>
-        <Toast/>
-        </>
-        
+        </Tabs>        
     )
 }
 
