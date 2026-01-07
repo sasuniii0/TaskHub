@@ -1,8 +1,27 @@
 import { Keyboard, Pressable, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
 import { useRouter } from "expo-router"
+import { registerUser } from "@/services/authService"
+import React from "react"
 
 const Register = () => {
     const router = useRouter()
+    const [name,setName] =  React.useState("")
+    const [email,setEmail] =  React.useState("")
+    const [password,setPassword] =  React.useState("")
+    const [confirmPassword,setConfirmPassword] =  React.useState("")
+
+    const handleRegister = async () => {
+        try{
+            if(!name || !email || !password || !confirmPassword){
+                alert("Please fill all the fields")
+                return
+            }
+            await registerUser(name,email,password)
+            router.push("/login")
+        }catch(error:any){
+            alert("Registration failed")
+        }
+    }
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View className="flex-1 justify-center items-center bg-gray-50 px-6">
@@ -18,6 +37,7 @@ const Register = () => {
                             placeholder="name"
                             placeholderTextColor="#6B7280"
                             className="border border-gray-300 rounded-xl px-4 py-3 mb-4 text-gray-800"
+                            onChangeText={(text) => setName(text)}
                         />
     
                         {/* Email */}
@@ -25,6 +45,7 @@ const Register = () => {
                             placeholder="email"
                             placeholderTextColor="#6B7280"
                             className="border border-gray-300 rounded-xl px-4 py-3 mb-4 text-gray-800"
+                            onChangeText={(text) => setEmail(text)}
                         />
     
                         {/* Password */}
@@ -33,6 +54,7 @@ const Register = () => {
                             placeholderTextColor="#6B7280"
                             secureTextEntry
                             className="border border-gray-300 rounded-xl px-4 py-3 mb-6 text-gray-800"
+                            onChangeText={(text) => setPassword(text)}
                         />
 
                         <TextInput
@@ -40,12 +62,15 @@ const Register = () => {
                             placeholderTextColor="#6B7280"
                             secureTextEntry
                             className="border border-gray-300 rounded-xl px-4 py-3 mb-6 text-gray-800"
+                            onChangeText={(text) => setConfirmPassword(text)}
                         />
     
-                        {/* Login Button */}
+                        {/* Register Button */}
                         <Pressable className="bg-black py-3 rounded-xl active:opacity-80">
                             <Text className="text-white text-center font-semibold text-lg">
+                            <TouchableOpacity onPress={() => handleRegister()}>
                             Register
+                            </TouchableOpacity>
                             </Text>
                         </Pressable>
     
