@@ -2,6 +2,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 import { HeaderShownContext } from "@react-navigation/elements"
 import { Tabs } from "expo-router"
 import { View } from "react-native"
+import Toast from "react-native-toast-message"
 
 const tabs = [
   { name: "home", icon: "home", title: "Home" },
@@ -12,7 +13,8 @@ const tabs = [
 
 const DashBoardLayout = () =>{
     return(
-        <Tabs 
+        <>
+            <Tabs 
             screenOptions={{
                 headerShown : false,
                 tabBarActiveTintColor:'black',
@@ -37,6 +39,9 @@ const DashBoardLayout = () =>{
             <Tabs.Screen name="news" /> 
             <Tabs.Screen name="profile" />  */}
         </Tabs>
+        <Toast/>
+        </>
+        
     )
 }
 

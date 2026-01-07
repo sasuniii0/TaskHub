@@ -2,6 +2,7 @@ import { loginUser } from "@/services/authService"
 import { useRouter } from "expo-router"
 import React from "react"
 import { Keyboard, Pressable, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
+import Toast from "react-native-toast-message";
 
 const Login = () => {
     const router = useRouter()
@@ -11,13 +12,26 @@ const Login = () => {
     const handleSignin = async () => {
         try{
             if(!email || !password){
-                alert("Please fill all the fields")
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error',
+                    text2: 'Please fill all the fields'
+                });
                 return
             }
             await loginUser(email,password)
+            Toast.show({
+                type: 'success',
+                text1: 'Success',
+                text2: 'Logged in successfully'
+            });
             router.push("/home")
         }catch(error:any){
-            alert("Login failed")
+            Toast.show({
+                type: 'error',
+                text1: 'Login Failed',
+                text2: error?.message || "Something went wrong"
+            });
         }
     }
     return (

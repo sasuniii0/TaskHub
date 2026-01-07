@@ -1,6 +1,8 @@
 import { View, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
 import { Redirect } from "expo-router";
+import Toast from "react-native-toast-message";
+
 import "../global.css";
 
 const Index = () => {

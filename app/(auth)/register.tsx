@@ -1,7 +1,8 @@
-import { Keyboard, Pressable, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
+import { Alert, Keyboard, Pressable, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
 import { useRouter } from "expo-router"
 import { registerUser } from "@/services/authService"
 import React from "react"
+import Toast from "react-native-toast-message";
 
 const Register = () => {
     const router = useRouter()
@@ -11,17 +12,49 @@ const Register = () => {
     const [confirmPassword,setConfirmPassword] =  React.useState("")
 
     const handleRegister = async () => {
-        try{
-            if(!name || !email || !password || !confirmPassword){
-                alert("Please fill all the fields")
-                return
-            }
-            await registerUser(name,email,password)
-            router.push("/login")
-        }catch(error:any){
-            alert("Registration failed")
+    try {
+        if (!name || !email || !password || !confirmPassword) {
+        Toast.show({
+            type: 'error',
+            text1: 'Error',
+            text2: 'Please fill all the fields'
+        });
+        return;
         }
+
+        if (password !== confirmPassword) {
+        Toast.show({
+            type: 'error',
+            text1: 'Error',
+            text2: 'Passwords do not match'
+        })
+        return;
+        }
+
+        try{
+            await registerUser(name,email,password)
+
+            Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: 'Account created successfully'
+        });
+        router.push("/login");
+        }catch(error:any){
+            Toast.show({
+            type: 'error',
+            text1: 'Registration Failed',
+            text2: error?.message || "Something went wrong"
+        });
+        }
+    } catch (error: any) {
+        Toast.show({
+            type: 'error',
+            text1: 'Registration Failed',
+            text2: error?.message || "Something went wrong"
+        });
     }
+    };
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View className="flex-1 justify-center items-center bg-gray-50 px-6">
@@ -66,14 +99,15 @@ const Register = () => {
                         />
     
                         {/* Register Button */}
-                        <Pressable className="bg-black py-3 rounded-xl active:opacity-80">
+                        <Pressable
+                            onPress={handleRegister}
+                            className="bg-black py-3 rounded-xl active:opacity-80"
+                            >
                             <Text className="text-white text-center font-semibold text-lg">
-                            <TouchableOpacity onPress={() => handleRegister()}>
-                            Register
-                            </TouchableOpacity>
+                                Register
                             </Text>
-                        </Pressable>
-    
+                            </Pressable>
+
                         {/* Register */}
                         <View className="flex-row justify-center mt-5">
                             <Text className="text-gray-600 mr-1">
