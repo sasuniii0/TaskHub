@@ -1,11 +1,13 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
-import { auth, db } from "./firebase.config"
+import { createUserWithEmailAndPassword, updateProfile ,signInWithEmailAndPassword} from "firebase/auth"
+import { auth, db  } from "./firebase.config"
 import { doc, setDoc } from "firebase/firestore"
 
 export const registerUser = async (name: string , email: string , password: string) =>{
+    //Authentication saves only the email and password only.
     const userCredentials = await createUserWithEmailAndPassword(auth,email,password)
 
     //saving firestore
+    // we need to save other details in firestore(works as the Database)
     await updateProfile(userCredentials.user,{
         displayName: name
     })
@@ -19,4 +21,6 @@ export const registerUser = async (name: string , email: string , password: stri
     );
     return userCredentials.user
 }
-export const loginUser = (email: string , password: string) =>{}
+export const loginUser = async (email: string , password: string) =>{
+    return signInWithEmailAndPassword(auth,email,password)
+}
