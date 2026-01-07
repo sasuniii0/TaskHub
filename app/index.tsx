@@ -4,27 +4,28 @@ import { Redirect } from "expo-router";
 import Toast from "react-native-toast-message";
 
 import "../global.css";
+import { useAuth } from "@/hooks/use-auth";
 
 const Index = () => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 800);
-
-    return () => clearTimeout(timer);
-  }, []);
+  const {user , loading} = useAuth()
 
   if (loading) {
     return (
-      <View className="flex-1 justify-center items-center bg-white">
-        <ActivityIndicator size="small" color="black" />
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0f0f52" />
       </View>
-    );
+    )
   }
 
-  return <Redirect href="/login" />;
+  if (user) {
+    return <Redirect href="/home" />;
+  }else{
+    Toast.show({
+      type: 'info',
+      text1: 'Please log in to continue',
+    });
+    return <Redirect href="/login" />;
+  }
 };
 
 export default Index;
